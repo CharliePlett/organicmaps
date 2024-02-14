@@ -24,26 +24,43 @@ extension UISearchBar {
 class UISearchBarRenderer: UIViewRenderer {
   class func render(_ control: UISearchBar, style: Style) {
     super.render(control, style: style)
-    var searchTextField: UITextField?
     if #available(iOS 13, *) {
-      searchTextField = control.searchTextField
-    }
-    
-    // Default search bar implementation adds the grey transparent image for background. This code removes it and updates the corner radius. This is not working on iPad designed for mac.
-    if #available(iOS 14.0, *), ProcessInfo.processInfo.isiOSAppOnMac {
+      var searchTextField = control.searchTextField
+      // Default search bar implementation adds the grey transparent image for background. This code removes it and updates the corner radius. This is not working on iPad designed for mac.
+      if #available(iOS 14.0, *), ProcessInfo.processInfo.isiOSAppOnMac {
+      } else {
+        control.setSearchFieldBackgroundImage(UIImage(), for: .normal)
+      }
+      searchTextField.layer.setCorner(radius: 8)
+      searchTextField.layer.masksToBounds = true
+      // Placeholder color
+      if let placeholder = searchTextField.placeholder {
+        searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor.gray])
+      }
+      if let backgroundColor = style.backgroundColor {
+        searchTextField.backgroundColor = backgroundColor
+      }
+      if let font = style.font {
+        searchTextField.font = font
+      }
+      if let fontColor = style.fontColor {
+        searchTextField.textColor = fontColor
+      }
+      if let tintColor = style.tintColor {
+        searchTextField.leftView?.tintColor = tintColor
+        // Placeholder indicator color
+        searchTextField.tintColor = tintColor
+        // Clear button image
+        let clearButtonImage = UIImage(named: "ic_clear")?.withRenderingMode(.alwaysTemplate).withTintColor(tintColor)
+        control.setImage(clearButtonImage, for: .clear, state: .normal)
+      }
     } else {
-      control.setSearchFieldBackgroundImage(UIImage(), for: .normal)
-    }
-    searchTextField?.layer.setCorner(radius: 8)
-    searchTextField?.layer.masksToBounds = true
-
-    // Placeholder color
-    if let placeholder = searchTextField?.placeholder {
-      searchTextField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor.gray])
-    }
-    
-    if let backgroundColor = style.backgroundColor {
-      searchTextField?.backgroundColor = backgroundColor
+      // Default search bar implementation for iOS12 adds the dark grey transparent image for background. This code removes it and replace with the custom image accordingly to the documentation - see 'setSearchFieldBackgroundImage'.
+      if let backgroundColor = style.backgroundColor {
+        let image = searchBarBackgroundImage(color: backgroundColor)
+        control.setSearchFieldBackgroundImage(image, for: .normal)
+        control.searchTextPositionAdjustment = UIOffset(horizontal: 6.0, vertical: 0.0)
+      }
     }
     if let barTintColor = style.barTintColor {
       let position = control.delegate?.position?(for: control) ?? control.barPosition
@@ -51,28 +68,9 @@ class UISearchBarRenderer: UIViewRenderer {
       control.setBackgroundImage(barTintColor.getImage(), for: position, barMetrics: .default)
       control.backgroundColor = barTintColor
     }
-    if let font = style.font {
-      searchTextField?.font = font
-    }
-    if let fontColor = style.fontColor {
-      searchTextField?.textColor = fontColor
-    }
     if let fontColorDetailed = style.fontColorDetailed {
       // Cancel button color
       control.tintColor = fontColorDetailed
-    }
-    if let tintColor = style.tintColor {
-      searchTextField?.leftView?.tintColor = tintColor
-      // Placeholder indicator color
-      searchTextField?.tintColor = tintColor
-      // Clear button image
-      let clearButtonImage: UIImage?
-      if #available(iOS 13.0, *) {
-        clearButtonImage = UIImage(named: "ic_clear")?.withRenderingMode(.alwaysTemplate).withTintColor(tintColor)
-      } else {
-        clearButtonImage = UIImage(named: "ic_search_clear_14")
-      }
-      control.setImage(clearButtonImage, for: .clear, state: .normal)
     }
   }
 
@@ -86,10 +84,28 @@ class UISearchBarRenderer: UIViewRenderer {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = font
       }
       if let fontColor = style.fontColor {
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: fontColor]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = fontColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).leftView?.tintColor = fontColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = fontColor
       }
     }
+  }
+
+  // Draws the background image for the UITextField using the default system's text field height.
+  // This approach is used only for iOS 12.
+  private class func searchBarBackgroundImage(color: UIColor) -> UIImage? {
+    let size = CGSize(width: 36, height: 36)
+    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+    guard let context = UIGraphicsGetCurrentContext() else { return nil }
+    let rect = CGRect(origin: .zero, size: size)
+    let cornerRadius = CGFloat(8)
+    let path = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+    context.addPath(path.cgPath)
+    context.setFillColor(color.cgColor)
+    context.fillPath()
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image
   }
 }
