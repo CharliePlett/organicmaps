@@ -31,6 +31,7 @@
     mr = मागे
     nb = Tilbake
     nl = Terug
+    pdt = Trigj
     pl = Wróć
     pt = Voltar
     pt-BR = Voltar
@@ -76,6 +77,7 @@
     mr = रद्द करा
     nb = Avbryt
     nl = Annuleren
+    pdt = Venullen
     pl = Anuluj
     pt = Cancelar
     pt-BR = Cancelar
@@ -121,6 +123,7 @@
     mr = डाउनलोड रद्द करा
     nb = Avbryt nedlasting
     nl = Downloaden annuleren
+    pdt = Downloaden venullen
     pl = Anuluj pobieranie
     pt = Cancelar descarregamento
     pt-BR = Cancelar download
@@ -166,6 +169,7 @@
     mr = हटवा
     nb = Slett
     nl = Verwijderen
+    pdt = Auflaschen
     pl = Usuń
     pt = Eliminar
     pt-BR = Apagar
@@ -210,6 +214,7 @@
     mr = नकाशे डाउनलोड करा
     nb = Last ned kart
     nl = Download kaarten
+    pdt = Launtkoat Downloaden
     pl = Pobierz mapy
     pt = Descarregar mapas
     pt-BR = Baixar mapas
@@ -255,6 +260,7 @@
     mr = डाउनलोड अयशस्वी झाले. पुन्हा प्रयत्न करण्यासाठी स्पर्श करा.
     nb = Nedlastingen mislyktes – trykk på nytt for å prøve en gang til
     nl = Downloaden is mislukt. Tik om het opnieuw te proberen.
+    pdt = Downloaden haft vespält. Nochmol proowen.
     pl = Nie udało się pobrać. Proszę nacisnąć, aby spróbować ponownie.
     pt = O descarregamento falhou, toque novamente para tentar de novo.
     pt-BR = O download falhou, toque para tentar de novo.
@@ -300,6 +306,7 @@
     mr = डाउनलोड करत आहे…
     nb = Laster ned …
     nl = Downloaden…
+    pdt = Downloaden…
     pl = Pobieranie…
     pt = A descarregar…
     pt-BR = Baixando…
@@ -346,6 +353,7 @@
     mr = किलोमीटर
     nb = Kilometer
     nl = Kilometers
+    pdt = Kilomeetas
     pl = Kilometry
     pt = Quilómetros
     pt-BR = Quilômetros
@@ -391,6 +399,7 @@
     mr = अभिप्राय द्या
     nb = Legg inn en vurdering
     nl = Laat een review achter
+    pdt = Schriev en Bericht
     pl = Napisz recenzję
     pt = Faça uma avaliação
     pt-BR = Deixe uma avaliação
@@ -472,6 +481,7 @@
     mr = मैल
     nb = Miles
     nl = Mijlen
+    pdt = Mielen
     pl = Mile
     pt = Milhas
     pt-BR = Milhas
@@ -517,6 +527,7 @@
     mr = माझे स्थान
     nb = Min posisjon
     nl = Mijn locatie
+    pdt = Mienje Städ
     pl = Moje położenie
     pt = A minha posição
     pt-BR = Minha posição
@@ -562,6 +573,7 @@
     mr = नंतर
     nb = Senere
     nl = Later
+    pdt = Lota
     pl = Później
     pt = Mais tarde
     pt-BR = Mais tarde
